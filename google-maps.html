@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>Google Mapsの練習</title>
+	<script src="http://maps.google.com/maps/api/js?key=AIzaSyBfmPaooi7HSuGqFeIMviYUzQI6y0f-BRE&sensor=true&language=ja"></script>
+	<style>
+		html, body {
+			height: 100%;
+		}
+		#map {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+	<script>
+		TownTypes = {
+			ARROUND_STATION: 1,
+			URBAN_AREA: 2,
+			RESIDENTIAL_AREA: 3,
+			ROADSIDE: 4,
+			OTHER: 9
+		}
+
+		function Downtown(lattitude, longitude,　sales, townType) {
+			this.lattitude = lattitude;
+			this.longitude = longitude;
+			this.sales = sales;
+			this.townType = townType;
+		}
+
+		Downtown.prototype = {
+			getFillColor: function(){
+				switch (this.townType) {
+					case TownTypes.ARROUND_STATION:  return 'rgb(255,0,0)';
+					case TownTypes.URBAN_AREA:       return 'rgb(0,0,255)';
+					case TownTypes.RESIDENTIAL_AREA: return 'rgb(0,255,0)';
+					case TownTypes.ROADSIDE:         return 'rgb(128,0,128)';
+					case TownTypes.OTHER:            return 'rgb(100,100,100)';
+					default: throw "Illegal argument : townType=" + this.townType;
+				}
+			},
+			getStrokeColor: function(){
+				switch (this.townType) {
+					case TownTypes.ARROUND_STATION:  return 'rgb(255,50,50)';
+					case TownTypes.URBAN_AREA:       return 'rgb(50,50,255)';
+					case TownTypes.RESIDENTIAL_AREA: return 'rgb(50,255,50)';
+					case TownTypes.ROADSIDE:         return 'rgb(128,50,128)';
+					case TownTypes.OTHER:            return 'rgb(150,150,150)';
+					default: throw "Illegal argument : townType=" + this.townType;
+				}
+			},
+			getRadiusSize: function(){
+				return this.sales / 200;
+			}
+		}
+
+		var map = new google.maps.Map(document.getElementById('map'), {
+			zoom: 11,
+			center: new google.maps.LatLng(35.685179, 139.752820), // 皇居
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		});
+		
+		var downtowns = [
+		new Downtown(35.692271, 139.701716, 515420, TownTypes.ARROUND_STATION), // 新宿駅東口
+		new Downtown(35.669572, 139.765469, 483254, TownTypes.URBAN_AREA), // 銀座地域
+		new Downtown(35.693485, 139.699187, 399353, TownTypes.ARROUND_STATION), // 新宿駅西口
+		new Downtown(35.729888, 139.712429, 337415, TownTypes.ARROUND_STATION), // 池袋駅東口
+		new Downtown(35.686873, 139.773742, 284446, TownTypes.URBAN_AREA), // 室町地域
+		new Downtown(35.681507, 139.775569, 208224, TownTypes.URBAN_AREA), // 日本橋地域
+		new Downtown(35.543730, 139.444910, 188579, TownTypes.ARROUND_STATION), // 町田駅南口地域
+		new Downtown(35.731223, 139.709011, 168829, TownTypes.ARROUND_STATION), // 池袋駅西口
+		new Downtown(35.699541, 139.412982, 160325, TownTypes.ARROUND_STATION), // 立川駅北口
+		new Downtown(35.663443, 139.699196, 160325, TownTypes.ARROUND_STATION), // 渋谷公園通商店街
+		new Downtown(35.701014, 139.771755, 132901, TownTypes.ARROUND_STATION), // 秋葉原
+		new Downtown(35.703290, 139.580308, 129931, TownTypes.ARROUND_STATION), // 吉祥寺駅北口
+		new Downtown(35.659142, 139.703750, 118042, TownTypes.ARROUND_STATION), // 渋谷駅東部
+		new Downtown(35.685984, 139.702479, 113452, TownTypes.ARROUND_STATION), // タカシマヤタイムズスクエア
+		new Downtown(35.675162, 139.759776, 96371, TownTypes.ARROUND_STATION), // 日比谷
+		new Downtown(35.670216, 139.702666, 96283, TownTypes.ARROUND_STATION), // 原宿駅周辺
+		new Downtown(35.681552, 139.766063, 89699, TownTypes.ARROUND_STATION), // 東京駅商店街
+		new Downtown(35.659412, 139.696417, 88509, TownTypes.ARROUND_STATION), // 道玄坂周辺
+		new Downtown(35.674648, 139.777716, 83718, TownTypes.URBAN_AREA), // 八丁堀地域
+		new Downtown(35.614215, 139.626771, 82271, TownTypes.ARROUND_STATION), // 玉川高島屋SC
+		new Downtown(35.698099, 139.682910, 71268, TownTypes.ARROUND_STATION), // 中野坂上駅周辺
+		new Downtown(35.696235, 139.813913, 67737, TownTypes.ARROUND_STATION), // 錦糸町駅南口
+		new Downtown(35.656456, 139.338771, 61200, TownTypes.ARROUND_STATION), // 八王子駅北口
+		new Downtown(35.607686, 139.669062, 59311, TownTypes.ARROUND_STATION), // 自由画家駅周辺
+		new Downtown(35.706980, 139.774005, 59194, TownTypes.ARROUND_STATION), // 御徒町駅西口
+		new Downtown(35.562630, 139.715048, 57832, TownTypes.ARROUND_STATION), // 蒲田駅西口
+		new Downtown(35.701979, 139.580298, 56684, TownTypes.ARROUND_STATION), // 吉祥寺駅南口
+		new Downtown(35.709689, 139.775585, 52354, TownTypes.ARROUND_STATION), // 上野６丁目
+		new Downtown(35.671159, 139.480474, 50645, TownTypes.ARROUND_STATION), // 府中駅南口
+		new Downtown(35.707273, 139.665931, 50536, TownTypes.ARROUND_STATION), // 中野駅北口
+		new Downtown(35.712073, 139.794831, 47886, TownTypes.OTHER), // 浅草１丁目
+		new Downtown(35.650875, 139.446897, 47612, TownTypes.ARROUND_STATION), // 聖蹟桜ケ丘駅周辺
+		new Downtown(35.665179, 139.712479, 44084, TownTypes.URBAN_AREA), // 青山通り表参道周辺
+		new Downtown(35.709358, 139.774041, 42879, TownTypes.ARROUND_STATION), // 上野４丁目
+		new Downtown(35.606413, 139.733444, 41756, TownTypes.ARROUND_STATION), // 大井町駅西部
+		new Downtown(35.695434, 139.761416, 41579, TownTypes.URBAN_AREA), // 駿河台下
+		new Downtown(35.674178, 139.763720, 41253, TownTypes.ARROUND_STATION), // 有楽町駅南口
+		new Downtown(35.643541, 139.671069, 40142, TownTypes.ARROUND_STATION), // 三軒茶屋
+		new Downtown(35.696971, 139.412991, 38770, TownTypes.ARROUND_STATION), // 立川駅南口
+		new Downtown(35.732500, 139.709395, 35990, TownTypes.RESIDENTIAL_AREA), // 池袋西北部地域
+		new Downtown(35.660750, 139.696158, 35157, TownTypes.RESIDENTIAL_AREA), // 東急本店周辺
+		new Downtown(35.625055, 139.424547, 33140, TownTypes.ARROUND_STATION), // 多摩センター駅周辺
+		new Downtown(35.653133, 139.544096, 33051, TownTypes.ARROUND_STATION), // 調布駅北口
+		new Downtown(35.705275, 139.620689, 31609, TownTypes.ARROUND_STATION), // 荻窪駅北口
+		new Downtown(35.664740, 139.859351, 30743, TownTypes.ARROUND_STATION), // 西葛西駅周辺
+		new Downtown(35.687989, 139.697931, 30535, TownTypes.ARROUND_STATION), // 南新宿商店会
+		new Downtown(35.700264, 139.788272, 30003, TownTypes.URBAN_AREA), // 浅草橋・蔵前周辺
+		new Downtown(35.759624, 139.628521, 29833, TownTypes.URBAN_AREA), // 光が丘ＩＭＡ
+		new Downtown(35.785867, 139.308735, 29684, TownTypes.URBAN_AREA), // 新町
+		new Downtown(35.699800, 139.480313, 29569, TownTypes.ARROUND_STATION), // 国分寺駅ビル「エル」
+		new Downtown(35.667073, 139.757462, 29038, TownTypes.ARROUND_STATION), // 新橋駅西口
+		new Downtown(35.750070, 139.805034, 28790, TownTypes.ARROUND_STATION), // ルミネ北千住会
+		new Downtown(35.705061, 139.665824, 28503, TownTypes.ARROUND_STATION), // 中野駅南口
+		new Downtown(35.698158, 139.825584, 28382, TownTypes.ARROUND_STATION), // 亀戸駅北口地域
+		new Downtown(35.729386, 139.718783, 28352, TownTypes.URBAN_AREA), // 池袋サンシャインシティ
+		new Downtown(35.653995, 139.882596, 27803, TownTypes.ROADSIDE), // 東葛西９丁目周辺
+		new Downtown(35.629232, 139.742930, 27734, TownTypes.ARROUND_STATION), // 品川駅西口周辺
+		new Downtown(35.646789, 139.709283, 26940, TownTypes.ARROUND_STATION), // 恵比寿駅西口地域
+		new Downtown(35.700742, 139.545255, 26039, TownTypes.ARROUND_STATION), // 武蔵境駅南口
+		new Downtown(35.561831, 139.716872, 24984, TownTypes.ARROUND_STATION), // 蒲田駅東口
+		new Downtown(35.683996, 139.737732, 24748, TownTypes.ARROUND_STATION), // 麹町通り
+		new Downtown(35.701913, 139.740494, 24544, TownTypes.URBAN_AREA), // 神楽坂通り
+		new Downtown(35.625622, 139.713406, 24339, TownTypes.ARROUND_STATION), // 不動前駅周辺
+		new Downtown(35.729550, 139.539945, 24233, TownTypes.ARROUND_STATION), // 田無駅北口商店街
+		new Downtown(35.660551, 139.729266, 23534, TownTypes.URBAN_AREA), // 六本木ヒルズ
+		new Downtown(35.714802, 139.361409, 23085, TownTypes.ARROUND_STATION), // 昭島駅北口
+		new Downtown(35.764688, 139.852759, 22913, TownTypes.ROADSIDE), // アリオ亀有
+		new Downtown(35.667237, 139.804429, 22480, TownTypes.RESIDENTIAL_AREA), // 深川ギャザリア
+		new Downtown(35.777886, 139.719394, 22452, TownTypes.ARROUND_STATION), // 赤羽駅西口地域
+		new Downtown(35.707657, 139.776295, 22129, TownTypes.ROADSIDE), // 御徒町駅東口地域
+		new Downtown(35.602069, 139.376313, 21968, TownTypes.ROADSIDE), // 小山ヶ丘地域
+		new Downtown(35.749820, 139.586324, 21798, TownTypes.ARROUND_STATION), // 大泉学園駅北口周辺
+		new Downtown(35.509530, 139.471245, 21565, TownTypes.ROADSIDE), // 鶴間３丁目地域
+		new Downtown(35.757920, 139.653741, 21497, TownTypes.ARROUND_STATION), // 平和台駅周辺
+		new Downtown(35.701333, 139.702282, 21264, TownTypes.ARROUND_STATION), // 新大久保駅東口
+		new Downtown(35.702109, 139.560981, 21111, TownTypes.ARROUND_STATION), // 三鷹駅南口
+		new Downtown(35.737470, 139.654731, 21108, TownTypes.ARROUND_STATION), // 練馬駅南口地域
+		new Downtown(35.716597, 139.858672, 21087, TownTypes.ARROUND_STATION), // 新小岩駅南部
+		new Downtown(35.779084, 139.721240, 20999, TownTypes.ARROUND_STATION), // 赤羽駅東口
+		new Downtown(35.695939, 139.703540, 20993, TownTypes.URBAN_AREA), // 歌舞伎町
+		new Downtown(35.626449, 139.633917, 20950, TownTypes.ARROUND_STATION), // 用賀駅周辺
+		new Downtown(35.633985, 139.715828, 20791, TownTypes.ARROUND_STATION), // 目黒駅周辺
+		new Downtown(35.770501, 139.870474, 20721, TownTypes.ARROUND_STATION), // 金町駅北部
+		new Downtown(35.697809, 139.813457, 20393, TownTypes.ARROUND_STATION), // 錦糸町駅北口
+		new Downtown(35.662355, 139.584908, 20359, TownTypes.ARROUND_STATION), // 仙川駅周辺
+		new Downtown(35.788445, 139.288261, 20010, TownTypes.URBAN_AREA), // 霞台
+		new Downtown(35.550326, 139.441470, 19955, TownTypes.RESIDENTIAL_AREA), // 森野２丁目・中町２丁目
+		new Downtown(35.642398, 139.713676, 19620, TownTypes.ARROUND_STATION), // 恵比寿ガーデンプレイス
+		new Downtown(35.777630, 139.632877, 19450, TownTypes.ARROUND_STATION), // 成増駅周辺
+		new Downtown(35.698588, 139.446664, 19431, TownTypes.ARROUND_STATION), // 国立駅周辺
+		new Downtown(35.711551, 139.777254, 19216, TownTypes.ARROUND_STATION), // 上野駅周辺
+		new Downtown(35.620520, 139.704413, 19184, TownTypes.ARROUND_STATION), // 武蔵小山
+		new Downtown(35.693047, 139.783603, 19009, TownTypes.URBAN_AREA), // 横山町・馬喰町
+		new Downtown(35.732733, 139.881939, 18929, TownTypes.ARROUND_STATION), // 小岩駅南口地域
+		new Downtown(35.691464, 139.769210, 18900, TownTypes.ARROUND_STATION), // 内神田
+		new Downtown(35.572093, 139.702906, 18884, TownTypes.ARROUND_STATION), // 池上駅周辺
+		new Downtown(35.676750, 139.770059, 18873, TownTypes.URBAN_AREA), // 京橋地域
+		new Downtown(35.614177, 139.380061, 18711, TownTypes.ARROUND_STATION), // 南大沢駅周辺
+		new Downtown(35.728077, 139.286691, 18614, TownTypes.ARROUND_STATION), // 秋川駅周辺
+		new Downtown(35.629017, 139.776210, 18504, TownTypes.RESIDENTIAL_AREA), // お台場
+		new Downtown(35.701849, 139.811831, 18403, TownTypes.ARROUND_STATION), // 太平地域
+		// new Downtown(, , TownTypes.ARROUND_STATION), // 
+		// new Downtown(, , TownTypes.ARROUND_STATION), // 
+		// new Downtown(, , TownTypes.ARROUND_STATION), // 
+		// new Downtown(, , TownTypes.ARROUND_STATION), // 
+		// new Downtown(, , TownTypes.ARROUND_STATION), // 
+		// new Downtown(, , TownTypes.ARROUND_STATION), // 
+		// new Downtown(, , TownTypes.ARROUND_STATION), // 
+		// new Downtown(, , TownTypes.ARROUND_STATION), // 
+		// new Downtown(, , TownTypes.ARROUND_STATION), // 
+		// new Downtown(, , TownTypes.ARROUND_STATION), // 
+		// new Downtown(, , TownTypes.ARROUND_STATION), // 
+		// new Downtown(, , TownTypes.ARROUND_STATION), // 
+		// new Downtown(, , TownTypes.ARROUND_STATION), // 
+		];
+
+		downtowns.forEach(function(downtown, i){
+			new google.maps.Circle({
+				center: new google.maps.LatLng(downtown.lattitude, downtown.longitude), // 新宿駅東口
+				map: map,
+				fillColor: downtown.getFillColor(),
+				strokeColor: downtown.getStrokeColor(),
+				radius: downtown.getRadiusSize()
+			});			
+		})
+
+	</script>
+</body>
+</html>

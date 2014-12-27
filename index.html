@@ -3,6 +3,15 @@
 <head>
 	<meta charset="UTF-8">
 	<title>東京商業規模マップ</title>
+	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-52861801-2', 'auto');
+	ga('send', 'pageview');
+	</script>
 	<script src="http://maps.google.com/maps/api/js?key=AIzaSyBfmPaooi7HSuGqFeIMviYUzQI6y0f-BRE&sensor=true&language=ja"></script>
 	<style>
 		html, body {
@@ -63,7 +72,7 @@
 			center: new google.maps.LatLng(35.685179, 139.752820), // 皇居
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		});
-		
+
 		var downtowns = [
 		new Downtown(35.692271, 139.701716, 515420, TownTypes.ARROUND_STATION), // 新宿駅東口
 		new Downtown(35.669572, 139.765469, 483254, TownTypes.URBAN_AREA), // 銀座地域
@@ -169,16 +178,16 @@
 		new Downtown(35.760183, 139.533445, 18171, TownTypes.ARROUND_STATION), // 東久留米駅西側周辺
 		new Downtown(35.606214, 139.735912, 18101, TownTypes.ARROUND_STATION), // 大井町駅東部
 		new Downtown(35.784571, 139.284773, 18045, TownTypes.ARROUND_STATION), // 河辺駅周辺
-		// new Downtown(, , TownTypes.ARROUND_STATION), // 
-		// new Downtown(, , TownTypes.ARROUND_STATION), // 
-		// new Downtown(, , TownTypes.ARROUND_STATION), // 
-		// new Downtown(, , TownTypes.ARROUND_STATION), // 
-		// new Downtown(, , TownTypes.ARROUND_STATION), // 
-		// new Downtown(, , TownTypes.ARROUND_STATION), // 
-		// new Downtown(, , TownTypes.ARROUND_STATION), // 
-		// new Downtown(, , TownTypes.ARROUND_STATION), // 
-		// new Downtown(, , TownTypes.ARROUND_STATION), // 
-		// new Downtown(, , TownTypes.ARROUND_STATION), // 
+		// new Downtown(, , TownTypes.ARROUND_STATION), //
+		// new Downtown(, , TownTypes.ARROUND_STATION), //
+		// new Downtown(, , TownTypes.ARROUND_STATION), //
+		// new Downtown(, , TownTypes.ARROUND_STATION), //
+		// new Downtown(, , TownTypes.ARROUND_STATION), //
+		// new Downtown(, , TownTypes.ARROUND_STATION), //
+		// new Downtown(, , TownTypes.ARROUND_STATION), //
+		// new Downtown(, , TownTypes.ARROUND_STATION), //
+		// new Downtown(, , TownTypes.ARROUND_STATION), //
+		// new Downtown(, , TownTypes.ARROUND_STATION), //
 		];
 
 		downtowns.forEach(function(downtown, i){
@@ -188,7 +197,7 @@
 				fillColor: downtown.getFillColor(),
 				strokeColor: downtown.getStrokeColor(),
 				radius: downtown.getRadiusSize()
-			});			
+			});
 		})
 
 	</script>
